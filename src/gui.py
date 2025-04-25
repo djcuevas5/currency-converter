@@ -5,7 +5,7 @@ CURRENCY_LIST = ["USD", "EUR", "JPY", "GBP", "AUD", "CAD", "PHP", "CHF", "CNY", 
 
 def launch_gui(root):
     # Create a frame to organize layout with padding
-    frame = tk.Frame(root, padx=30, pady=30, bg="#78e353") 
+    frame = tk.Frame(root, padx=30, pady=30, bg="#4fbc29") 
     frame.grid(sticky="nsew")
 
     label_font = ("Arial", 16, "bold")
