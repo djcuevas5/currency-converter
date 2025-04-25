@@ -5,11 +5,15 @@ CURRENCY_LIST = ["USD", "EUR", "JPY", "GBP", "AUD", "CAD", "PHP", "CHF", "CNY", 
 
 def launch_gui(root):
     # Create a frame to organize layout with padding
-    frame = tk.Frame(root, padx=20, pady=20)
-    frame.grid()
+    frame = tk.Frame(root, padx=30, pady=30, bg="#78e353") 
+    frame.grid(sticky="nsew")
+
+    label_font = ("Arial", 16, "bold")
+    entry_font = ("Arial", 12)
+    result_font = ("Arial", 12, "bold")
 
     # Amount input
-    tk.Label(frame, text="Amount:").grid(row=0, column=0, sticky="e", pady=15)
+    tk.Label(frame, text="Amount:").grid(row=0, column=0, sticky="e", pady=10)
     amount_entry = tk.Entry(frame)
     amount_entry.grid(row=0, column=1, pady=5)
 
@@ -42,3 +46,4 @@ def launch_gui(root):
     # Optional: Center all columns equally
     frame.grid_columnconfigure(0, weight=1)
     frame.grid_columnconfigure(1, weight=1)
+
