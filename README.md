@@ -1,4 +1,4 @@
-# currency-converter
+# Currency Converter
 
 ## ITMS-448 | Cyber Security Technologies
 **Professor Dawson**
