@@ -30,7 +30,7 @@ def launch_gui(root):
     to_currency.grid(row=2, column=1, pady=5)
 
     # Result label
-    result_label = tk.Label(frame, text="Result will appear here", font=("Arial", 12, "bold"))
+    result_label = tk.Label(text="Result will appear here", font=("Arial", 12, "bold"))
     result_label.grid(row=3, column=0, columnspan=2, pady=10)
 
     # Convert button
