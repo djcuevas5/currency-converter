@@ -1,6 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
-
+from api_handler import convert_currency as api_convert_currency
+import matplotlib.pyplot as plt
+from api_handler import convert_currency as api_convert_currency, get_historical_rates
+import datetime
 CURRENCY_LIST = ["USD", "EUR", "JPY", "GBP", "AUD", "CAD", "PHP", "CHF", "CNY", "SEK", "NZD"]
 
 def launch_gui(root):
@@ -38,10 +41,53 @@ def launch_gui(root):
         amount = amount_entry.get()
         from_curr = from_currency.get()
         to_curr = to_currency.get()
-        result_label.config(text=f"Converting {amount} {from_curr} to {to_curr}...")
+
+        if amount =="":
+            result_label.config(text="Please enter an amount" )
+            return
+        try:
+            amount = float(amount)
+        except ValueError:
+            result_label.config(text="Invalid amount. Please enter a number.")
+            return
+        
+        converted_amount = api_convert_currency(from_curr, to_curr, amount)
+
+        if converted_amount:
+            result_label.config(text=f"{amount} {from_curr} = {converted_amount} {to_curr}")
+        else:
+            result_label.config(text="Error fetching conversion data.")
 
     convert_btn = tk.Button(frame, text="Convert", command=convert_currency)
     convert_btn.grid(row=4, column=0, columnspan=2, pady=10)
+    
+    def plot_historical_graph(from_curr, to_curr):
+        today = datetime.date.today()
+        seven_days_ago = today - datetime.timedelta(days=7)
+        start_date = seven_days_ago.strftime("%Y-%m-%d")
+        end_date = today.strftime("%Y-%m-%d")
+        
+        rates = get_historical_rates(from_curr, to_curr, start_date, end_date)
+        if rates:
+            dates = []
+            values = []
+            for date, rate_info in rates.items():
+                dates.append(date)
+                values.append(rate_info[to_curr])
+                
+                plt.figure(figsize=(8, 5), facecolor="#4fbc29")
+                plt.plot(dates, values, marker='o', color="#ffffff", markerfacecolor="#ffffff")
+                plt.title(f"Exchange Rate Trend: {from_curr} to {to_curr}", color="white")
+                plt.xlabel("Date", color="white")
+                plt.ylabel("Exchange Rate", color="white")
+                plt.xticks(rotation=45, color="white")
+                plt.yticks(color="white")
+                plt.grid(True, color="white", linestyle="--", alpha=0.5)
+                plt.tight_layout()
+                plt.show()
+        else:
+            print("No historical data available.")
+
 
     # Optional: Center all columns equally
     frame.grid_columnconfigure(0, weight=1)
